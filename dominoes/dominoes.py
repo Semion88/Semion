@@ -23,6 +23,7 @@ def board():
                     'stock': stock_bones, 'snake': [max_double],
                     'turn': first_player}
 
+
 def play_board():
     print('=' * 70)
     print('Stock size:', len(board['stock']))
@@ -43,3 +44,29 @@ def play_board():
     for i, bones in enumerate(board['player']):
         print(f'{i + 1}:{bones}')
     print()
+
+board = board()
+while True:
+    play_board()
+    game_state = board()
+
+    if game_state != 'game_not_done':
+        print('Status:', game_state)
+        break
+
+    turn = board['turn']
+    if turn == 'player':
+        print("Status: It's your turn to make a move. Enter your command:")
+        while True:
+            move = input()
+            if move_on_board(move):
+                break
+            print('Invalid input. Please try again.')
+        move = int(move)
+        board['turn'] = 'pc'
+    else:
+        input('Status: Pc is about to make a move. Please push Enter')
+        move = choice(range(-len(board['pc']), len(board['pc'])))
+        board['turn'] = 'player'
+
+    make_move(move, turn)
