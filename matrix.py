@@ -1,12 +1,12 @@
-def fill_matrix(rows, cols):
+def fill_matrix(r, c):
     try:
         matrix = []
         print("Введите значения матрицы:")
-        for row_idx in range(rows):
+        for row_idx in range(r):
             matrix.append([])
             user_input = input()
             matrix_values = user_input.split(" ")
-            for col_idx in range(cols):
+            for col_idx in range(c):
                 matrix[row_idx].append(int(matrix_values[col_idx]))
         return matrix
     except:
@@ -52,6 +52,8 @@ def get_matrix(index):
             return row, col, matrix
         except ValueError:
             print("Please enter a valid size (rows, columns).")
+
+
 
 
 def matrix_sum(a_size, matrix_a, b_size, matrix_b):
@@ -164,7 +166,27 @@ def matrix_transpose(a_size, matrix_a):
     else:
         print("Incorrect input")
 
-
+def inverse():
+    row, col, matrix = get_matrix('')
+    if row == col:
+        cofactor_matrix = empty_matrix(row, col)
+        for i in range(len(matrix)):
+            for k in range(len(matrix[i])):
+                mini_matrix = [row[:k] + row[k+1:] for row in matrix[:i] + matrix[i+1:]]
+                cofactor_matrix[i][k] = determinant(mini_matrix)
+                # matrix of minors
+                if (i % 2 == 0 and k % 2 == 1) or (i % 2 == 1 and k % 2 == 0):
+                    cofactor_matrix[i][k] *= -1
+                # matrix of cofactors
+        cofactor_matrix = [[j for j in i] for i in zip(*cofactor_matrix)]
+        # transpose over diagonal (u_choice 1 in transpose function)
+        try:
+            scalar = (1 / determinant(matrix))
+            inverse_matrix = [[format_number(round(scalar * a, 2)) for a in i] for i in cofactor_matrix]
+            # multiply by 1 / determinant
+            print_matrix(inverse_matrix)
+        except ZeroDivisionError:
+            print("This matrix doesn't have an inverse.\n")
 
 def main():
     try:
@@ -182,6 +204,7 @@ def main():
                 "3. Multiply matrices \n"
                 "4. Transpose matrix  \n"
                 "5.Determinant matrix \n"
+                "6.Inverse matrix \n"
                 "0. Exit"
             )
             user_input = int(input(""))
@@ -208,6 +231,8 @@ def main():
                     else:
                         print("Must be a square matrix.\n")
                         continue
+            elif user_input == 6:
+                inverse()
             elif user_input == 0:
                 print("See you soon!")
                 break
@@ -215,3 +240,7 @@ def main():
                 print("Incorrect input try one's more")
     except:
         print("Ошибка: Неправельно введён размер матрицы")
+
+
+if __name__ == '__main__':
+    main()
