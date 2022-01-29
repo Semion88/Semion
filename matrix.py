@@ -44,7 +44,7 @@ def matrix_multiple(a_size, matrix_a, b_size, matrix_b):
             final_matrix.append([])
             for col_b_idx in range(int(b_size.split(' ')[1])):
                 multiplied_value = 0
-                for col_a_idx in range(int(a_size.split(' ')[1])): # 1
+                for col_a_idx in range(int(a_size.split(' ')[1])):  # 1
                     multiplied_value += matrix_a[row_a_idx][col_a_idx] * matrix_b[col_a_idx][col_b_idx]
                 final_matrix[row_a_idx].append(multiplied_value)
         return final_matrix
@@ -52,9 +52,60 @@ def matrix_multiple(a_size, matrix_a, b_size, matrix_b):
         print("Error: count of cols in first matrix must be equal to count of rows in second matrix")
 
 
+def matrix_transpose(a_size, matrix_a):
+    print("Chose option: \n"
+          "1. Main diagonal \n"
+          "2. Side diagonal \n"
+          "3. Vertical line \n"
+          "4. Horizontal line\n")
+    user_input = int(input())
+    if user_input == 1:
+        transposed_matrix = []
+        for col_idx in range(int(a_size.split(' ')[1])):
+            transposed_matrix.append([])
+            for row_idx in range(int(a_size.split(' ')[0])):
+                transposed_matrix[col_idx].append(matrix_a[row_idx][col_idx])
+        return transposed_matrix
+    elif user_input == 2:
+        transposed_matrix = []
+        for col_idx in range(int(a_size.split(' ')[1])):
+            transposed_matrix.append([])
+            for row_idx in range(int(a_size.split(' ')[0])):
+                transposed_matrix[col_idx].append(
+                    matrix_a
+                    [abs(row_idx - (int(a_size.split(' ')[0]) - 1))]
+                    [abs(col_idx - (int(a_size.split(' ')[1]) - 1))]
+                )
+        return transposed_matrix
+    elif user_input == 3:
+        transposed_matrix = []
+        for row_idx in range(int(a_size.split(' ')[0])):
+            transposed_matrix.append([])
+            for col_idx in range(int(a_size.split(' ')[1])):
+                transposed_matrix[row_idx].append(
+                    matrix_a
+                    [row_idx]
+                    [abs(col_idx - (int(a_size.split(' ')[1]) - 1))]
+                )
+        return transposed_matrix
+    elif user_input == 4:
+        transposed_matrix = []
+        for row_idx in range(int(a_size.split(' ')[0])):
+            transposed_matrix.append([])
+            for col_idx in range(int(a_size.split(' ')[1])):
+                transposed_matrix[row_idx].append(
+                    matrix_a
+                    [abs(row_idx - (int(a_size.split(' ')[0]) - 1))]
+                    [col_idx]
+                )
+        return transposed_matrix
+    else:
+        print("Incorrect input")
+
+
 def main():
     try:
-        size_a = input("Enter size of first matrix: ") # 4 4
+        size_a = input("Enter size of first matrix: ")  # 4 4
         matrix_a = fill_matrix(int(size_a.split(" ")[0]), int(size_a.split(" ")[1]))
 
         size_b = input("Enter size of second matrix: ")
@@ -66,6 +117,7 @@ def main():
                 "1. Add matrices \n"
                 "2. Multiply matrix by a constant \n"
                 "3. Multiply matrices \n"
+                "4. Transpose matrix  \n"
                 "0. Exit"
             )
             user_input = int(input(""))
@@ -79,6 +131,9 @@ def main():
             elif user_input == 3:
                 multiplied = matrix_multiple(size_a, matrix_a, size_b, matrix_b)
                 print(multiplied)
+            elif user_input == 4:
+                transposed = matrix_transpose(size_a, matrix_a)
+                print(transposed)
             elif user_input == 0:
                 break
             else:
