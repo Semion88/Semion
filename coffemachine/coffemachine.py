@@ -1,18 +1,23 @@
-#ингридиентов в кофеварке
-machine_have= """The coffee machine has: 
-    water = 400 + ml
-    milk = 540 + ml of milk
-    beans = 120 gram of cacao beans
-    cups = 9 stakanchiki
-    money = 550 gryven"""
-
-print("Write variants (buy, fill, take):")
-v = input()
+#По умолчанию
 water = 400
 milk = 540
 beans = 120
 cups = 9
 money = 550
+v = input
+#ингридиентов в кофеварке
+def machine_have():
+    print()
+    print('The coffee machine has:')
+    print(f'{water} of water')
+    print(f'{milk} of milk')
+    print(f'{beans} of coffee beans')
+    print(f'{cups} of disposable cups')
+    print(f'{money} of money')
+    print()
+
+print("Write variants (buy, fill, take,remaining,exit):")
+
 print(machine_have)
 print()
 #функция, для покупки кофе
@@ -20,7 +25,8 @@ def buy():
     print("What do you want to buy?:\n"
           "1 - espresso\n"
           "2 - latte\n"
-          "3 - cappuccino")
+          "3 - cappuccino"
+          "4 - back to menu")
     type = input()
 
     def espresso():
@@ -83,3 +89,16 @@ print(str(milk) + " of milk")
 print(str(beans) + " of coffee beans")
 print(str(cups) + " of disposable cups")
 print(str(money) + " of money")
+def main():
+    while True:
+        action = machine_have()
+        if action == 'buy':
+            buy()
+        elif action == 'fill':
+            fill()
+        elif action == 'take':
+            take()
+        elif action == 'exit':
+            break
+        elif action == 'remaining':
+            machine_have()
