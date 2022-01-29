@@ -47,10 +47,16 @@ def is_win(igrok_char, pole):
     for y in range(3):
         if opponent_char not in pole[y] and "_" not in pole[y]:
             return True
-  #  for x in range (3):
-      #  kolonka = [pole[0][x],pole[1][x],pole[2][x]]
-       # if opponent_char not in kolonka and "_" not in kolonka:
-        #    return True
+    for x in range (3):
+        kolonka = [pole[0][x],pole[1][x],pole[2][x]]
+        if opponent_char not in kolonka and "_" not in kolonka:
+            return True
+    diagonal = [pole[0][0],pole[1][1],pole[2][2]]
+    if  opponent_char not in diagonal and "_" not in diagonal:
+        diagonal = [pole[0][2], pole[1][1], pole[2][0]]
+        if opponent_char not in diagonal and "_" not in diagonal:
+            return True
+        return False
 
 
 def is_draw(pole):
