@@ -1,3 +1,6 @@
+from random import randint
+
+
 vert_coord = ("a", "b","c")
 
 
@@ -6,7 +9,7 @@ def get_igrok_char():
     while igrok_char not in ("x","0"):
         print("Oshibka")
         igrok_char = input("Select char (x,0): ").strip(" ").lower()
-        return igrok_char
+    return igrok_char
 
 
 pole = [["_" for x in range(3)] for y in range(3)]
@@ -21,7 +24,7 @@ def igrok_position(pole):
     real_x,real_y = 0,0
     while True:
         coord = input("Input coord: ").lower().strip("_")
-        x,y = tuple(coord)
+        y , x  = tuple(coord)
 
 
         if  int(x) not in (1,2,3) or y not in vert_coord:
@@ -64,8 +67,14 @@ def is_draw(pole):
     count = 0
     for y in range(3):
         count += 1 if "_" in pole[y] else 0
-        return count == 0
+    return count == 0
 
+
+def get_pc_position(pole):
+    x,y = randint(0,2), randint(0,2)
+    while pole[y][x] !="_":
+        x,y = randint(0,2),randint(0,2)
+    return x,y
 
 while True:
     show_pole(pole)
@@ -79,3 +88,9 @@ while True:
         if is_win(igrok_position,pole):
             print("you win")
             break
+        x, y = pc_position(pole)
+        pole[y][x] = pc_position
+        if is_win(pc_position, pole):
+            print("you win")
+            break
+
