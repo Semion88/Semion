@@ -12,6 +12,47 @@ def fill_matrix(rows, cols):
     except:
         print("Ошибка: неправильно введены значения матрицы")
 
+def format_number(x):
+    if x % 1 != 0:
+        pass
+    else:
+        x = int(x)
+    return x
+
+def empty_matrix(row, col):
+    matrix = [[0 for _ in range(col)] for _ in range(row)]
+    return matrix
+
+def print_matrix(matrix):
+    print("The result is:")
+    for row in matrix:
+        print(*row)
+    print()
+
+def get_matrix(index):
+    while True:
+        try:
+            row, col = map(int, input(f"Enter size of{index} matrix: ").strip().split(' '))
+            while True:
+                print('Enter matrix:')
+                matrix = [[format_number(float(x)) for x in input().strip().split(' ')] for _ in range(row)]
+                check_col = [len(matrix[x]) for x in range(len(matrix))]
+                # is this the best way to check length?
+                for x in range(len(matrix)):
+                    if len(matrix[x]) != col:
+                        check_col = False
+                    else:
+                        pass
+                if len(matrix) != row or check_col is False:
+                    print("Please enter a matrix with the same dimensions as you entered.")
+                    matrix.clear()
+                    continue
+                else:
+                    break
+            return row, col, matrix
+        except ValueError:
+            print("Please enter a valid size (rows, columns).")
+
 
 def matrix_sum(a_size, matrix_a, b_size, matrix_b):
     if a_size.split(' ')[0] == b_size.split(' ')[0] and a_size.split(' ')[1] == b_size.split(' ')[1]:
@@ -35,6 +76,27 @@ def matrix_multiple_on_const(a_size, matrix_a):
             final_matrix[row_idx].append(matrix_a[row_idx][col_idx] * const)
 
     return final_matrix
+
+
+def get_cofactor(matrix, count):
+    new_matrix = list()
+    for i in range(1, len(matrix[1:]) + 1):
+        new_row = matrix[i][:count] + matrix[i][count + 1:]
+        new_matrix.append(new_row)
+    return new_matrix
+
+
+def determinant(matrix):
+    if len(matrix) == 1:
+        return matrix[0][0]
+    if len(matrix) == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+    sum_cofactors = 0
+    for column in range(len(matrix[0])):
+        sign = (-1) ** (column + 2)
+        sub_determinant = (determinant(get_cofactor(matrix, column)))
+        sum_cofactors += (sign * matrix[0][column] * sub_determinant)
+    return sum_cofactors
 
 
 def matrix_multiple(a_size, matrix_a, b_size, matrix_b):
@@ -103,6 +165,7 @@ def matrix_transpose(a_size, matrix_a):
         print("Incorrect input")
 
 
+
 def main():
     try:
         size_a = input("Enter size of first matrix: ")  # 4 4
@@ -118,6 +181,7 @@ def main():
                 "2. Multiply matrix by a constant \n"
                 "3. Multiply matrices \n"
                 "4. Transpose matrix  \n"
+                "5.Determinant matrix \n"
                 "0. Exit"
             )
             user_input = int(input(""))
@@ -134,7 +198,18 @@ def main():
             elif user_input == 4:
                 transposed = matrix_transpose(size_a, matrix_a)
                 print(transposed)
+            elif user_input == 5:
+                while True:
+                    row, col, matrix = get_matrix(" ")
+                    if row == col:
+                        print(determinant(matrix))
+                        print()
+                        break
+                    else:
+                        print("Must be a square matrix.\n")
+                        continue
             elif user_input == 0:
+                print("See you soon!")
                 break
             else:
                 print("Incorrect input try one's more")
