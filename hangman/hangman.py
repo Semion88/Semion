@@ -1,29 +1,51 @@
 import random
-print("Hangman")
-print("The game will be available soon.")
-def replace(guess_word):
-    a=[]
-    for i in "guess_word":
-        i = "-"
-        a += i
-        print("a")
-        return a
-def guess(guess_word, a ):
+
+
+def guess(word_letters_array, guess_word):
+    print(word_letters_array)
+    print(guess_word)
     k = 8
-    input_letter = input("Input a letter: ")
-    typed = set()
+    list_letter = []
+    find_letter = False
+
     while k != 0:
-        if input_letter in guess_word:
-            typed.add(input_letter)
-            print([a if a in typed else "_" for a in guess_word])
-            print(a)
-        else:
-            print("No such letter in the word")
+        input_letter = input("Input a letter: ")
+        list_letter += [input_letter]
+
+        for index, letter in enumerate(guess_word):
+            if input_letter == letter:
+                 word_letters_array[index] = letter
+                 find_letter = True
+
+        if not find_letter:
             k -= 1
-            input_letter = input("Input a letter: ")
-print("H A N G  M  A N")
-a = []
-word_list = ["phython","java","kotlin","javascript"]
-guess_word = random.choice(word_list)
-print("guess_word")
-replace("guess_word")
+            print("No such letter in the word. Left ", k, "attempt")
+            if k == 0:
+                print('You lose')
+
+        print("".join(word_letters_array))
+        if "".join(word_letters_array) == guess_word:
+            print("You win!")
+            break
+
+
+def random_word():
+    word_list = ["python", "java", "kotlin", "javascript"]
+    return random.choice(word_list)
+
+
+def main():
+    print("H A N G  M  A N")
+
+    guess_word = random_word()
+    ready_word = list("-" * len(guess_word))
+    guess(ready_word, guess_word)
+
+    while input("Play Hangman? (Yes/NO) ").upper() == "YES":
+        print("Game started")
+        guess_word = random_word()
+        ready_word = list("-" * len(guess_word))
+        guess(ready_word, guess_word)
+
+
+main()
